@@ -29,6 +29,10 @@ public class TaskEntity {
         return task_due;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

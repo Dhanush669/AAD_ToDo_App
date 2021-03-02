@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,7 +20,7 @@ import java.util.Calendar;
 public class AddTask extends AppCompatActivity {
     ActivityAddTaskBinding binding;
     String priority;
-    int dp=0;
+    int dp=0,id;
     public static final String Save_Value="PRIORITY";
     DatePickerDialog datePickerDialog;
     @Override
@@ -28,6 +29,30 @@ public class AddTask extends AppCompatActivity {
         binding=ActivityAddTaskBinding.inflate(getLayoutInflater());
         View view=binding.getRoot();
         setContentView(view);
+        Intent intent=getIntent();
+        if(intent.getStringExtra("up_task_desc")!=null){
+            setTitle("Update Task");
+            id=intent.getIntExtra("up_task_id",-1);
+            binding.taskDesc.setText(intent.getStringExtra("up_task_desc"));
+            binding.selectedDate.setText(intent.getStringExtra("up_task_due"));
+            switch(intent.getStringExtra("up_task_priority")){
+                case "High":
+                    binding.taskPriority.setSelection(0);
+                    break;
+                case "Medium":
+                    binding.taskPriority.setSelection(1);
+                    break;
+                case "Low":
+                    binding.taskPriority.setSelection(2);
+                    break;
+            }
+            binding.radioGroup.check(R.id.due_date);
+            binding.addBtn.setText("update Task");
+        }
+        else{
+            setTitle("Add Task");
+            binding.addBtn.setText("Add Task");
+        }
         if(savedInstanceState!=null){
             if(savedInstanceState.getString(Save_Value)!=null){
                binding.selectedDate.setText(savedInstanceState.getString(Save_Value));
@@ -72,6 +97,30 @@ public class AddTask extends AppCompatActivity {
                            datePickerDialog.show();
                        }
                         break;
+               }
+           }
+       });
+       binding.addBtn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               if(binding.taskDesc.getText().toString().equals("") || binding.selectedDate.getText().toString().equals("")){
+                   Toast.makeText(AddTask.this, "Task Description or Task Due Missing!", Toast.LENGTH_SHORT).show();
+               }
+               else{
+
+                   Intent intent=new Intent();
+                   Toast.makeText(AddTask.this,
+                           binding.taskDesc.getText().toString(), Toast.LENGTH_SHORT).show();
+                   intent.putExtra("task_Desc",binding.taskDesc.getText().toString());
+                   intent.putExtra("task_Proir",priority);
+                   intent.putExtra("task_Due",binding.selectedDate.getText().toString());
+                   if(id!=-1){
+                       intent.putExtra("id",id);
+                   }
+
+                   setResult(RESULT_OK,intent);
+                   finish();
+
                }
            }
        });
