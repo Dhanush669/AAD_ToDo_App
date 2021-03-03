@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
@@ -29,14 +30,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         holder.task_prority.setText(taskEntity.getTask_priority());
         holder.task_due.setText(taskEntity.getTask_due());
         holder.task_desc.setText(taskEntity.getTask_desc());
-        if(taskEntity.getTask_priority().equals("High")){
-            holder.priority_image.setImageResource(R.drawable.ic_high);
-        }
-        else if(taskEntity.getTask_priority().equals("Medium")){
-            holder.priority_image.setImageResource(R.drawable.ic_medium);
-        }
-        else if(taskEntity.getTask_priority().equals("Low")){
-            holder.priority_image.setImageResource(R.drawable.ic_low);
+        switch (taskEntity.getTask_priority()) {
+            case "High":
+                holder.priority_image.setImageResource(R.drawable.ic_high);
+                break;
+            case "Medium":
+                holder.priority_image.setImageResource(R.drawable.ic_medium);
+                break;
+            case "Low":
+                holder.priority_image.setImageResource(R.drawable.ic_low);
+                break;
+            case "Completed":
+                holder.priority_image.setImageResource(R.drawable.ic_completed);
+                break;
         }
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override

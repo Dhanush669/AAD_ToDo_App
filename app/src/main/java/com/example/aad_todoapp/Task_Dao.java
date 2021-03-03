@@ -23,6 +23,6 @@ public interface Task_Dao {
     @Query("DELETE FROM TaskEntity")
     public void DeleteAllTask();
 
-    @Query("SELECT * FROM TaskEntity")
+    @Query("SELECT * FROM TaskEntity ORDER BY Completed")
     LiveData<List<TaskEntity>> GetAllTask();
 }

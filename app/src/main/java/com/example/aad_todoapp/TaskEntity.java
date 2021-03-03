@@ -7,14 +7,20 @@ import androidx.room.PrimaryKey;
 public class TaskEntity {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    private int completed;
     private String task_desc;
     private String task_priority;
     private String task_due;
 
-    public TaskEntity(String task_desc, String task_priority, String task_due) {
+    public TaskEntity(String task_desc, String task_priority, String task_due,int completed) {
         this.task_desc = task_desc;
         this.task_priority = task_priority;
         this.task_due = task_due;
+        this.completed=completed;
+    }
+
+    public int getCompleted() {
+        return completed;
     }
 
     public String getTask_desc() {
