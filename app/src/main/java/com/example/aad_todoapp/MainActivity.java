@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     static Task_ViewModel task_viewModel;
     List<TaskEntity> tasklist;
-    static int notiid,duemonth=0,dueyear=0,dueday=0;
+    static int duemonth=0,dueyear=0,dueday=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
