@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     static Task_ViewModel task_viewModel;
     List<TaskEntity> tasklist;
-    int notiid;
+    static int notiid,duemonth=0,dueyear=0,dueday=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         taskAdapter.onItemClicked(new TaskAdapter.onClickListener() {
             @Override
             public void itemClick(TaskEntity taskEntity) {
+                completedTask(taskEntity.getId(),taskEntity.getTask_desc(),taskEntity.getTask_priority()
+                ,taskEntity.getTask_due());
                 Intent intent=new Intent(MainActivity.this,AddTask.class);
                 intent.putExtra("up_task_desc",taskEntity.getTask_desc());
                 intent.putExtra("up_task_due",taskEntity.getTask_due());
@@ -76,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1 && resultCode==RESULT_OK){
-            Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
             String taskdesc=data.getStringExtra("task_Desc");
             String taskprior=data.getStringExtra("task_Proir");
             String taskdue=data.getStringExtra("task_Due");
@@ -89,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         else if(requestCode==2 && resultCode==RESULT_OK){
             Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
             String taskdesc=data.getStringExtra("task_Desc");
-            Toast.makeText(this, "2"+taskdesc, Toast.LENGTH_SHORT).show();
             String taskprior=data.getStringExtra("task_Proir");
             String taskdue=data.getStringExtra("task_Due");
             int id=data.getIntExtra("id",-1);
@@ -107,13 +107,16 @@ public class MainActivity extends AppCompatActivity {
     public  void setTask(int notiid,String priority,String taskdesc,String taskdue){
         int proirityid=0;
         Calendar calendar=Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,12);
-        calendar.set(Calendar.MINUTE,50);
+        calendar.set(Calendar.HOUR_OF_DAY,3);
+        calendar.set(Calendar.MINUTE,16);
         calendar.set(Calendar.SECOND,0);
         calendar.set(Calendar.MONTH,month);
         calendar.set(Calendar.YEAR,year);
-        calendar.set(Calendar.AM_PM,Calendar.AM);
+        calendar.set(Calendar.AM_PM,Calendar.PM);
         calendar.set(Calendar.DAY_OF_MONTH,day);
+        duemonth=month;
+        dueday=day;
+        dueyear=year;
         switch (priority) {
             case "High":
                 proirityid = R.drawable.ic_high;
@@ -135,8 +138,9 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
     }
     public static void completedTask(int update_id,String task_desc,String task_priority,String task_due){
-        TaskEntity taskEntity=new TaskEntity(task_desc,task_priority,task_due,1);
+        TaskEntity taskEntity=new TaskEntity(task_desc,"Completed",task_due,1);
         taskEntity.setId(update_id);
         task_viewModel.update(taskEntity);
     }
+
 }

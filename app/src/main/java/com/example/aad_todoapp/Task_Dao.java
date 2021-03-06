@@ -25,4 +25,5 @@ public interface Task_Dao {
 
     @Query("SELECT * FROM TaskEntity ORDER BY Completed")
     LiveData<List<TaskEntity>> GetAllTask();
+
 }

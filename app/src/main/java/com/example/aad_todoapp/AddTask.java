@@ -118,8 +118,8 @@ public class AddTask extends AppCompatActivity {
                }
                else{
                    Intent intent=new Intent();
-                   Toast.makeText(AddTask.this,
-                           binding.taskDesc.getText().toString(), Toast.LENGTH_SHORT).show();
+                   //Toast.makeText(AddTask.this,
+                        //   binding.taskDesc.getText().toString(), Toast.LENGTH_SHORT).show();
                    intent.putExtra("task_Desc",binding.taskDesc.getText().toString());
                    intent.putExtra("task_Proir",priority);
                    intent.putExtra("task_Due",binding.selectedDate.getText().toString());

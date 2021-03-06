@@ -21,14 +21,11 @@ public class TaskReceiver extends BroadcastReceiver {
         String taskdue=intent.getStringExtra("task_due");
 
         Notification notification=new NotificationCompat.Builder(context,Notification_ID)
-                .setContentText("Task Alter")
-                .setContentTitle("Task Alert Notification")
+                .setContentText(taskdesc)
+                .setContentTitle(taskdue)
                 .setSmallIcon(id)
                 .build();
         NotificationManagerCompat compat=NotificationManagerCompat.from(context);
         compat.notify(notiid,notification);
-        TaskEntity taskEntity=new TaskEntity(taskdesc,"Completed",taskdue,1);
-        taskEntity.setId(notiid);
-        task_viewModel.update(taskEntity);
     }
 }
