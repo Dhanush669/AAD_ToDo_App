@@ -49,7 +49,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         holder.cardView.setBackgroundResource(R.drawable.taskcard);
         holder.task_prority.setTextColor(Color.rgb(223,223,223));
         holder.task_due.setTextColor(Color.rgb(223,223,223));
-        holder.task_desc.setTextColor(Color.rgb(0,0,0));
+        holder.task_desc.setTextColor(Color.rgb(255,255,255));
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -125,12 +125,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
         }
     }
-//    public void cancleRemainder(int id){
-//        Intent intent=new Intent(context,TaskReceiver.class);
-//        PendingIntent pendingIntent=PendingIntent.getBroadcast(context,id,intent,0);
-//        AlarmManager alarmManager=(AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//        alarmManager.cancel(pendingIntent);
-//    }
     public interface onClickListener{
         void itemClick(TaskEntity taskEntity);
     }
