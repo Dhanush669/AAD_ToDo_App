@@ -75,7 +75,7 @@ public class AddTask extends AppCompatActivity {
         datePickerDialog= new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                String date=i2+" / "+i1+" / "+i;
+                String date=i2+" / "+(i1+1)+" / "+i;
                 day=i2;
                 month=i1;
                 year=i;

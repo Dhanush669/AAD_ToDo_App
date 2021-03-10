@@ -2,22 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    >
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        app:cardBackgroundColor="#ffffff"
-        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="#74b2e2"
         android:id="@+id/cardview"
         >
         <CheckBox
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/task_checkbox"
-            android:layout_margin="5dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="10dp"
             >
         </CheckBox>
         <LinearLayout
@@ -25,15 +27,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp"
+            android:paddingBottom="10dp"
             >
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="235dp"
+            android:layout_height="26dp"
             android:text="Task Description"
             android:textSize="18sp"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
             android:textStyle="bold"
             android:id="@+id/rec_taskdesc"
@@ -44,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
             android:layout_marginTop="5dp"
-            android:textColor="#838383"
+            android:textColor="#DFDFDF"
             android:text="Task Due"
             android:textSize="16dp"
             android:id="@+id/rec_taskdue"
@@ -55,7 +58,7 @@
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="right"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="35dp"
             android:id="@+id/rec_preimage"
             android:src="@drawable/ic_high"
             >
@@ -64,12 +67,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginEnd="10dp"
-            android:text="Priority"
-            android:padding="8dp"
+            android:layout_marginEnd="30dp"
+            android:text="priority"
+            android:paddingBottom="8dp"
             android:id="@+id/rec_taskprior"
             android:textSize="16sp"
-            android:textColor="#393939"
+            android:textColor="#DFDFDF"
             >
         </TextView>
     </androidx.cardview.widget.CardView>

@@ -27,11 +27,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
     List<TaskEntity> tasklist=new ArrayList<>();
     onClickListener listener;
     Context context;
+    TaskAdapter(Context context){
+        this.context=context;
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.taskholderlayout,parent,false);
-        context=parent.getContext();
+        //context=parent.getContext();
         return new ViewHolder(view);
     }
 
@@ -42,21 +45,25 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         holder.task_due.setText(taskEntity.getTask_due());
         holder.task_desc.setText(taskEntity.getTask_desc());
         holder.checkBox.setEnabled(true);
-        holder.cardView.setBackgroundColor(Color.rgb(255, 255, 255));
-        holder.task_prority.setTextColor(Color.rgb(57,57,57));
-        holder.task_due.setTextColor(Color.rgb(192,192,192));
+        holder.checkBox.setChecked(false);
+        holder.cardView.setBackgroundResource(R.drawable.taskcard);
+        holder.task_prority.setTextColor(Color.rgb(223,223,223));
+        holder.task_due.setTextColor(Color.rgb(223,223,223));
         holder.task_desc.setTextColor(Color.rgb(0,0,0));
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 MainActivity.completedTask(taskEntity.getId(),taskEntity.getTask_desc()
                 ,taskEntity.getTask_priority(),taskEntity.getTask_due());
-                holder.checkBox.setChecked(true);
-                holder.checkBox.setEnabled(false);
-                //cancleRemainder(taskEntity.getId());
+                //Toast.makeText(context, String.valueOf(MainActivity.taskid)+" b: "+String.valueOf(taskEntity.getId()), Toast.LENGTH_SHORT).show();
+                setAlarm set=new setAlarm(context.getApplicationContext());
+                set.cancleRemainder(taskEntity.getId());
+                //holder.checkBox.setEnabled(false);
 
             }
         });
+
+       // holder.checkBox.setChecked(false);
         switch (taskEntity.getTask_priority()) {
             case "High":
                 holder.priority_image.setImageResource(R.drawable.ic_high);
@@ -74,22 +81,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
 
         if(taskEntity.getCompleted()==1) {
-            holder.cardView.setBackgroundColor(Color.rgb(105,105,105));
-            holder.task_desc.setTextColor(Color.rgb(220,220,220));
-            holder.task_due.setTextColor(Color.rgb(192,192,192));
-            holder.task_prority.setTextColor(Color.rgb(192,192,192));
+            holder.cardView.setBackgroundResource(R.drawable.completed_task);
+            holder.task_desc.setTextColor(Color.rgb(106,106,106));
+            holder.task_due.setTextColor(Color.rgb(147,147,147));
+            holder.task_prority.setTextColor(Color.rgb(147,147,147));
+            //holder.checkBox.setChecked(true);
+            //holder.checkBox.setEnabled(false);
         }
-//        else{
-//            holder.cardView.setBackgroundColor(Color.rgb(255, 255, 255));
-//            holder.task_prority.setBackgroundColor(Color.rgb(255, 255, 255));
-//            holder.task_due.setBackgroundColor(Color.rgb(255, 255, 255));
-//            holder.task_desc.setBackgroundColor(Color.rgb(255, 255, 255));
-//
-//        }
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.checkBox.setEnabled(true);
+                //Toast.makeText(context, String.valueOf(taskEntity.getId()), Toast.LENGTH_SHORT).show();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
                     listener.itemClick(taskEntity);
                 }
@@ -123,13 +125,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
         }
     }
-    public void cancleRemainder(int id){
-        Intent intent=new Intent(context,TaskReceiver.class);
-        PendingIntent pendingIntent=PendingIntent.getBroadcast(context,id,intent,0);
-        AlarmManager alarmManager=(AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(pendingIntent);
-        pendingIntent.cancel();
-    }
+//    public void cancleRemainder(int id){
+//        Intent intent=new Intent(context,TaskReceiver.class);
+//        PendingIntent pendingIntent=PendingIntent.getBroadcast(context,id,intent,0);
+//        AlarmManager alarmManager=(AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+//        alarmManager.cancel(pendingIntent);
+//    }
     public interface onClickListener{
         void itemClick(TaskEntity taskEntity);
     }
