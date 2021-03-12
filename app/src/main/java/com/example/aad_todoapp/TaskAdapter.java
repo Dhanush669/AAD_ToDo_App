@@ -102,6 +102,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
             holder.priority_image.setImageResource(R.drawable.ic_completed);
             holder.task_prority.setText("Completed");
         }
+        else {
+            holder.checkBox.setChecked(false );
+        }
     }
 
     public void showTask(List<TaskEntity> tasklist){

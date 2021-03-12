@@ -110,10 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         else if(requestCode==2 && resultCode==RESULT_OK){
-            Calendar c = Calendar.getInstance();
-            int current_year = c.get(Calendar.YEAR);
-            int current_month = c.get(Calendar.MONTH);
-            int current_day = c.get(Calendar.DAY_OF_MONTH);
+
             String taskdesc=data.getStringExtra("task_Desc");
             String taskprior=data.getStringExtra("task_Proir");
             String taskdue=data.getStringExtra("task_Due");
@@ -132,29 +129,44 @@ public class MainActivity extends AppCompatActivity {
             ,dueyear);
             taskEntity.setId(id);
             task_viewModel.update(taskEntity);
-            //  *** this one is doubt!! ***
-            if(dueday>current_day){
-                if(duemonth>=current_month){
-                    if(dueyear>=current_year){
-                        set.setTask(taskEntity.getId(),taskEntity.getTask_priority(),taskEntity.getTask_desc(),
-                                taskEntity.getTask_due(),dueday,duemonth,dueyear);
-                    }
-                }
-                else if(dueyear>current_year){
-                    set.setTask(taskEntity.getId(),taskEntity.getTask_priority(),taskEntity.getTask_desc(),
-                            taskEntity.getTask_due(),dueday,duemonth,dueyear);
-                }
-            }
-            else if(duemonth>current_month){
-                if(dueyear>=current_year){
-                    set.setTask(taskEntity.getId(),taskEntity.getTask_priority(),taskEntity.getTask_desc(),
-                            taskEntity.getTask_due(),dueday,duemonth,dueyear);
-                }
-            }
-            else if(dueyear>current_year){
+            Calendar current_calendar=Calendar.getInstance();
+
+            Calendar updated_calendar=Calendar.getInstance();
+            updated_calendar.set(Calendar.HOUR_OF_DAY,19);
+            updated_calendar.set(Calendar.MINUTE,33);
+            updated_calendar.set(Calendar.SECOND,0);
+            updated_calendar.set(Calendar.MONTH,duemonth);
+            updated_calendar.set(Calendar.YEAR,dueyear);
+            updated_calendar.set(Calendar.DAY_OF_MONTH,dueday);
+            Log.i("check",String.valueOf(dueday));
+            if(updated_calendar.after(current_calendar)){
+                Log.i("Calendar","working");
                 set.setTask(taskEntity.getId(),taskEntity.getTask_priority(),taskEntity.getTask_desc(),
-                        taskEntity.getTask_due(),dueday,duemonth,dueyear);
+                                taskEntity.getTask_due(),dueday,duemonth,dueyear);
             }
+            //  *** this one is doubt!! ***
+//            if(dueday>current_day){
+//                if(duemonth>=current_month){
+//                    if(dueyear>=current_year){
+//                        set.setTask(taskEntity.getId(),taskEntity.getTask_priority(),taskEntity.getTask_desc(),
+//                                taskEntity.getTask_due(),dueday,duemonth,dueyear);
+//                    }
+//                }
+//                else if(dueyear>current_year){
+//                    set.setTask(taskEntity.getId(),taskEntity.getTask_priority(),taskEntity.getTask_desc(),
+//                            taskEntity.getTask_due(),dueday,duemonth,dueyear);
+//                }
+//            }
+//            else if(duemonth>current_month){
+//                if(dueyear>=current_year){
+//                    set.setTask(taskEntity.getId(),taskEntity.getTask_priority(),taskEntity.getTask_desc(),
+//                            taskEntity.getTask_due(),dueday,duemonth,dueyear);
+//                }
+//            }
+//            else if(dueyear>current_year){
+//                set.setTask(taskEntity.getId(),taskEntity.getTask_priority(),taskEntity.getTask_desc(),
+//                        taskEntity.getTask_due(),dueday,duemonth,dueyear);
+//            }
         }
     }
     public static void completedTask(int update_id,String task_desc,String task_priority,String task_due,boolean ischecked
