@@ -27,6 +27,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
     List<TaskEntity> tasklist=new ArrayList<>();
     onClickListener listener;
     Context context;
+    int posi=0;
     TaskAdapter(Context context){
         this.context=context;
     }
@@ -44,26 +45,30 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
         holder.task_prority.setText(taskEntity.getTask_priority());
         holder.task_due.setText(taskEntity.getTask_due());
         holder.task_desc.setText(taskEntity.getTask_desc());
-        holder.checkBox.setEnabled(true);
-        holder.checkBox.setChecked(false);
         holder.cardView.setBackgroundResource(R.drawable.taskcard);
-        holder.task_prority.setTextColor(Color.rgb(223,223,223));
-        holder.task_due.setTextColor(Color.rgb(223,223,223));
-        holder.task_desc.setTextColor(Color.rgb(255,255,255));
-        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.task_prority.setTextColor(Color.rgb(99,99,99));
+        holder.task_due.setTextColor(Color.rgb(99,99,99));
+        holder.task_desc.setTextColor(Color.rgb(0,0,0));
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                MainActivity.completedTask(taskEntity.getId(),taskEntity.getTask_desc()
-                ,taskEntity.getTask_priority(),taskEntity.getTask_due());
-                //Toast.makeText(context, String.valueOf(MainActivity.taskid)+" b: "+String.valueOf(taskEntity.getId()), Toast.LENGTH_SHORT).show();
-                setAlarm set=new setAlarm(context.getApplicationContext());
-                set.cancleRemainder(taskEntity.getId());
-                //holder.checkBox.setEnabled(false);
-
+            public void onClick(View view) {
+                setAlarm set = new setAlarm(context.getApplicationContext());
+                if(holder.checkBox.isChecked()){
+                    MainActivity.completedTask(taskEntity.getId(), taskEntity.getTask_desc()
+                            , taskEntity.getTask_priority(), taskEntity.getTask_due(),holder.checkBox.isChecked(),taskEntity.getDue_day()
+                            ,taskEntity.getDue_month(),taskEntity.getDue_year());
+                    set.cancleRemainder(taskEntity.getId());
+                }
+                else {
+                    MainActivity.completedTask(taskEntity.getId(), taskEntity.getTask_desc()
+                            , taskEntity.getTask_priority(), taskEntity.getTask_due(),holder.checkBox.isChecked(),taskEntity.getDue_day()
+                            ,taskEntity.getDue_month(),taskEntity.getDue_year());
+                    set.setTask(taskEntity.getId(),taskEntity.getTask_priority(),taskEntity.getTask_desc()
+                            ,taskEntity.getTask_due(),taskEntity.getDue_day(),taskEntity.getDue_month(),taskEntity.getDue_year());
+                }
             }
         });
 
-       // holder.checkBox.setChecked(false);
         switch (taskEntity.getTask_priority()) {
             case "High":
                 holder.priority_image.setImageResource(R.drawable.ic_high);
@@ -74,20 +79,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
             case "Low":
                 holder.priority_image.setImageResource(R.drawable.ic_low);
                 break;
-            case "Completed":
-                holder.priority_image.setImageResource(R.drawable.ic_completed);
-                break;
         }
 
 
-        if(taskEntity.getCompleted()==1) {
-            holder.cardView.setBackgroundResource(R.drawable.completed_task);
-            holder.task_desc.setTextColor(Color.rgb(106,106,106));
-            holder.task_due.setTextColor(Color.rgb(147,147,147));
-            holder.task_prority.setTextColor(Color.rgb(147,147,147));
-            //holder.checkBox.setChecked(true);
-            //holder.checkBox.setEnabled(false);
-        }
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,11 +92,22 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
                 }
             }
         });
+        if(taskEntity.getCompleted()==1) {
+            posi=position;
+            holder.cardView.setBackgroundResource(R.drawable.completed_task);
+            holder.task_due.setTextColor(Color.rgb(182,182,182));
+            holder.task_desc.setTextColor(Color.rgb(147,147,147));
+            holder.task_prority.setTextColor(Color.rgb(182,182,182));
+            holder.checkBox.setChecked(true);
+            holder.priority_image.setImageResource(R.drawable.ic_completed);
+            holder.task_prority.setText("Completed");
+        }
     }
 
     public void showTask(List<TaskEntity> tasklist){
         this.tasklist=tasklist;
         notifyDataSetChanged();
+
     }
 
     @Override

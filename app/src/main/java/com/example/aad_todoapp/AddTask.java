@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +25,8 @@ public class AddTask extends AppCompatActivity {
     ActivityAddTaskBinding binding;
     String priority;
     int dp=0,id;
-    static int notiid,year,month,day;
+    int notiid,year=0,month=0,day=0;
+    int pre_due_day,pre_due_month,pre_due_year;
     public static final String Save_Value="PRIORITY";
     DatePickerDialog datePickerDialog;
     @Override
@@ -43,6 +45,10 @@ public class AddTask extends AppCompatActivity {
         if(intent.getStringExtra("up_task_desc")!=null){
             setTitle("Update Task");
             id=intent.getIntExtra("up_task_id",-1);
+            pre_due_day=intent.getIntExtra("up_due_day",0);
+            pre_due_month=intent.getIntExtra("up_due_month",0);
+            pre_due_year=intent.getIntExtra("up_due_year",0);
+            Log.i("getting from main----",String.valueOf(pre_due_day));
             binding.taskDesc.setText(intent.getStringExtra("up_task_desc"));
             binding.selectedDate.setText(intent.getStringExtra("up_task_due"));
             switch(intent.getStringExtra("up_task_priority")){
@@ -79,6 +85,7 @@ public class AddTask extends AppCompatActivity {
                 day=i2;
                 month=i1;
                 year=i;
+                Log.i("date----",String.valueOf(day));
                 binding.selectedDate.setText(date);
             }
         },Calendar.getInstance().get(Calendar.YEAR),Calendar.getInstance().get(Calendar.MONDAY),Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
@@ -118,15 +125,24 @@ public class AddTask extends AppCompatActivity {
                }
                else{
                    Intent intent=new Intent();
-                   //Toast.makeText(AddTask.this,
-                        //   binding.taskDesc.getText().toString(), Toast.LENGTH_SHORT).show();
                    intent.putExtra("task_Desc",binding.taskDesc.getText().toString());
                    intent.putExtra("task_Proir",priority);
                    intent.putExtra("task_Due",binding.selectedDate.getText().toString());
+                   if(day==0||month==0||year==0){
+                       day=pre_due_day;
+                       month=pre_due_month;
+                       year=pre_due_year;
+                       Log.i("if day == 0 ",String.valueOf(day));
+                   }
+                   Log.i("if day !=0",String.valueOf(day));
+                   intent.putExtra("due_day",day);
+                   intent.putExtra("due_month",month);
+                   intent.putExtra("due_year",year);
                    if(id!=-1){
                        intent.putExtra("id",id);
                        notiid=id;
                    }
+                   Log.i("addding",String.valueOf(day));
                    setResult(RESULT_OK,intent);
                    finish();
 

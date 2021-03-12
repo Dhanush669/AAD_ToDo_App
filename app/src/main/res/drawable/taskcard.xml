@@ -7,8 +7,12 @@
         android:topRightRadius="20dp"
         >
     </corners>
-    <solid
-        android:color="#B5353535"
-        >
-    </solid>
+<!--    <solid-->
+<!--        android:color="#B5353535"-->
+<!--        >-->
+<!--    </solid>-->
+    <stroke
+        android:width="5dp"
+        android:color="#000000"
+        />
 </shape>

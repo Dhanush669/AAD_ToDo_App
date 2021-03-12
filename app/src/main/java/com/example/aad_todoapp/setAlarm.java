@@ -9,9 +9,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import static com.example.aad_todoapp.AddTask.day;
-import static com.example.aad_todoapp.AddTask.month;
-import static com.example.aad_todoapp.AddTask.year;
+
 
 public class setAlarm {
     AlarmManager alarmManager;
@@ -21,19 +19,20 @@ public class setAlarm {
         this.context=context;
         alarmManager=(AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
-    public  void setTask(int notiid,String priority,String taskdesc,String taskdue){
+    public  void setTask(int notiid,String priority,String taskdesc,String taskdue,int task_day,int task_month,
+                         int task_year){
         int proirityid=0;
         Calendar calendar=Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,2);
-        calendar.set(Calendar.MINUTE,24);
+        calendar.set(Calendar.HOUR_OF_DAY,19);
+        calendar.set(Calendar.MINUTE,33);
         calendar.set(Calendar.SECOND,0);
-        calendar.set(Calendar.MONTH,month);
-        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.MONTH,task_month);
+        calendar.set(Calendar.YEAR,task_year);
         //calendar.set(Calendar.AM_PM,Calendar.PM);
-        calendar.set(Calendar.DAY_OF_MONTH,day);
-        duemonth=month;
-        dueday=day;
-        dueyear=year;
+        calendar.set(Calendar.DAY_OF_MONTH,task_day);
+//        duemonth=month;
+//        dueday=day;
+//        dueyear=year;
         switch (priority) {
             case "High":
                 proirityid = R.drawable.ic_high;
@@ -50,7 +49,7 @@ public class setAlarm {
         intent.putExtra("noti_id",notiid);
         intent.putExtra("task_desc",taskdesc);
         intent.putExtra("task_due",taskdue);
-
+        Log.i("set", String.valueOf(notiid));
         PendingIntent pendingIntent=PendingIntent.getBroadcast(context,notiid,intent,PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
     }
@@ -59,6 +58,7 @@ public class setAlarm {
 
         Intent intent=new Intent(context,TaskReceiver.class);
         PendingIntent pendingIntent=PendingIntent.getBroadcast(context,id,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        Log.i("cancel", String.valueOf(id));
 
         alarmManager.cancel(pendingIntent);
 
