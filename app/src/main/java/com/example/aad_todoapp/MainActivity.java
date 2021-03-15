@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
-
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     static Task_ViewModel task_viewModel;
     List<TaskEntity> tasklist;
+    static List<TaskEntity> widget_data;
     List<Integer> ids;
     int size=0;
     static int duemonth=0,dueyear=0,dueday=0;
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         View view=binding.getRoot();
         setContentView(view);
         tasklist=new ArrayList<>();
+        widget_data=new ArrayList<>();
         TaskAdapter taskAdapter=new TaskAdapter(MainActivity.this);
         binding.recyclerview.setAdapter(taskAdapter);
         set=new setAlarm(getApplicationContext());
@@ -63,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<TaskEntity> taskEntities) {
                 taskAdapter.showTask(taskEntities);
+                widget_data=taskEntities;
+                AppWidgetManager appWidgetManager=AppWidgetManager.getInstance(MainActivity.this);
+                Log.i("main act", String.valueOf(TasksWidget.widit)+"31");
+                Context context = getApplicationContext();
+                ComponentName name = new ComponentName(context, TasksWidget.class);
+                int [] widget_ids = AppWidgetManager.getInstance(context).getAppWidgetIds(name);
+                appWidgetManager.notifyAppWidgetViewDataChanged(widget_ids,R.id.task_items);
                 ids=new ArrayList<>();
                 for (TaskEntity taskEntity:taskEntities){
                     ids.add(taskEntity.getId());

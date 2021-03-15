@@ -61,10 +61,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
                 }
                 else {
                     MainActivity.completedTask(taskEntity.getId(), taskEntity.getTask_desc()
-                            , taskEntity.getTask_priority(), taskEntity.getTask_due(),holder.checkBox.isChecked(),taskEntity.getDue_day()
-                            ,taskEntity.getDue_month(),taskEntity.getDue_year());
-                    set.setTask(taskEntity.getId(),taskEntity.getTask_priority(),taskEntity.getTask_desc()
-                            ,taskEntity.getTask_due(),taskEntity.getDue_day(),taskEntity.getDue_month(),taskEntity.getDue_year());
+                            , taskEntity.getTask_priority(), taskEntity.getTask_due(), holder.checkBox.isChecked(), taskEntity.getDue_day()
+                            , taskEntity.getDue_month(), taskEntity.getDue_year());
+                    Calendar current_calendar = Calendar.getInstance();
+
+                    Calendar updated_calendar = Calendar.getInstance();
+                    updated_calendar.set(Calendar.HOUR_OF_DAY, 19);
+                    updated_calendar.set(Calendar.MINUTE, 33);
+                    updated_calendar.set(Calendar.SECOND, 0);
+                    updated_calendar.set(Calendar.MONTH, taskEntity.getDue_month());
+                    updated_calendar.set(Calendar.YEAR, taskEntity.getDue_year());
+                    updated_calendar.set(Calendar.DAY_OF_MONTH, taskEntity.getDue_day());
+                    if (updated_calendar.after(current_calendar)) {
+                        set.setTask(taskEntity.getId(), taskEntity.getTask_priority(), taskEntity.getTask_desc()
+                                , taskEntity.getTask_due(), taskEntity.getDue_day(), taskEntity.getDue_month(), taskEntity.getDue_year());
+                    }
                 }
             }
         });
