@@ -4,6 +4,7 @@ import android.app.Application;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -63,6 +64,26 @@ public class Widget_Adapter extends RemoteViewsService {
             Log.i("ongetViewFacory","i am here get View");
             RemoteViews views=new RemoteViews(context.getPackageName(),R.layout.task_widget_container);
             views.setTextViewText(R.id.widget_desc, all_task.get(i).getTask_desc());
+            Intent fill_intent=new Intent();
+            fill_intent.putExtra("up_task_id",all_task.get(i).getId());
+            fill_intent.putExtra("up_due_day",all_task.get(i).getDue_day());
+            fill_intent.putExtra("up_due_month",all_task.get(i).getDue_month());
+            fill_intent.putExtra("up_due_year",all_task.get(i).getDue_year());
+            fill_intent.putExtra("up_task_desc",all_task.get(i).getTask_desc());
+            fill_intent.putExtra("up_task_due",all_task.get(i).getTask_due());
+            fill_intent.putExtra("up_task_priority",all_task.get(i).getTask_priority());
+            views.setOnClickFillInIntent(R.id.task_container,fill_intent);
+            if(all_task.get(i).getCompleted()==1){
+                views.setTextColor(R.id.widget_desc, Color.rgb(182,182,182));
+                views.setTextColor(R.id.widget_due, Color.rgb(147,147,147));
+                views.setInt(R.id.task_container,"setBackgroundResource",R.color.pending);
+            }
+            else {
+                views.setTextColor(R.id.widget_desc, Color.rgb(0,0,0));
+                views.setTextColor(R.id.widget_due, Color.rgb(99,99,99));
+                views.setInt(R.id.task_container,"setBackgroundResource",
+                        R.color.completed);
+            }
             Log.i("getViewAt", all_task.get(i).getTask_desc());
             views.setTextViewText(R.id.widget_due, all_task.get(i).getTask_due());
             return views;

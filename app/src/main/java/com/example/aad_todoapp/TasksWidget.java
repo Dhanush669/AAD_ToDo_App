@@ -1,5 +1,6 @@
 package com.example.aad_todoapp;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -25,6 +26,9 @@ public class TasksWidget extends AppWidgetProvider {
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,appWidgetId);
         views.setRemoteAdapter(R.id.task_items,intent);
         views.setEmptyView(R.id.task_items, R.id.example_widget_empty_view);
+        Intent clickintent=new Intent(context,AddTask.class);
+        PendingIntent clickpendingintent=PendingIntent.getActivity(context,0,clickintent,0);
+        views.setPendingIntentTemplate(R.id.task_items,clickpendingintent);
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
        // appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,R.id.task_items);
