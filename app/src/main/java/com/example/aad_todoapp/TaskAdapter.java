@@ -66,8 +66,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
                     Calendar current_calendar = Calendar.getInstance();
 
                     Calendar updated_calendar = Calendar.getInstance();
-                    updated_calendar.set(Calendar.HOUR_OF_DAY, 19);
-                    updated_calendar.set(Calendar.MINUTE, 33);
+                    updated_calendar.set(Calendar.HOUR_OF_DAY, 10);
+                    updated_calendar.set(Calendar.MINUTE, 10);
                     updated_calendar.set(Calendar.SECOND, 0);
                     updated_calendar.set(Calendar.MONTH, taskEntity.getDue_month());
                     updated_calendar.set(Calendar.YEAR, taskEntity.getDue_year());

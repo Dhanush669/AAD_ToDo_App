@@ -143,8 +143,8 @@ public class MainActivity extends AppCompatActivity {
             Calendar current_calendar=Calendar.getInstance();
 
             Calendar updated_calendar=Calendar.getInstance();
-            updated_calendar.set(Calendar.HOUR_OF_DAY,19);
-            updated_calendar.set(Calendar.MINUTE,33);
+            updated_calendar.set(Calendar.HOUR_OF_DAY,10);
+            updated_calendar.set(Calendar.MINUTE,10);
             updated_calendar.set(Calendar.SECOND,0);
             updated_calendar.set(Calendar.MONTH,duemonth);
             updated_calendar.set(Calendar.YEAR,dueyear);

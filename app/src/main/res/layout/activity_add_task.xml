@@ -4,29 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical"
     tools:context=".AddTask">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/card"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="@string/add_title"
+            android:id="@+id/addtitle"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            >
+        </TextView>
+    </androidx.cardview.widget.CardView>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:hint="About Task"
+        android:hint="@string/about_task"
         android:textSize="18sp"
         android:inputType="text"
+        android:textColor="#000000"
+        android:textColorHint="#4C4C4C"
         android:id="@+id/task_desc"
         >
     </EditText>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Priority"
+        android:text="@string/priority"
         android:layout_marginStart="20dp"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         >
     </TextView>
     <Spinner
+        android:background="#676767"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -38,10 +59,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Due"
+        android:text="@string/due"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         >
     </TextView>
     <RadioGroup
@@ -55,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/no_due"
-            android:text="No Due"
+            android:text="@string/due_no_due"
             android:textSize="18sp"
             android:textColor="#000000"
             >
@@ -64,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/due_date"
-            android:text="Due Date"
+            android:text="@string/due_due_date"
             android:layout_marginStart="20dp"
             android:textSize="18sp"
             android:textColor="#000000"
@@ -76,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:id="@+id/selected_date"
-        android:textColor="#ffffff"
+        android:textColor="#000000"
         android:gravity="center"
         android:textSize="18sp"
         >
@@ -86,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:text="Add Task"
+        android:text="@string/add_btn"
         android:id="@+id/add_btn"
         >
     </Button>

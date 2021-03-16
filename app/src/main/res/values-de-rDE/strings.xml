@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AAD_ToDo App</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Widget hinzufügen</string>
+    <string name="task_title">Aufgabenlisten</string>
+    <string name="add_title">Aufgabe hinzufügen</string>
+    <string name="update_title">Aufgabe aktualisieren</string>
+    <string name="about_task">Über Aufgabe</string>
+    <string name="priority">Priorität</string>
+    <string name="due">Fällig</string>
+    <string name="add_btn">Aufgabe hinzufügen</string>
+    <string name="update_btn">Aufgabe aktualisieren</string>
+    <string name="due_no_due">Nein fällig</string>
+    <string name="due_due_date">Geburtstermin</string>
+</resources>
