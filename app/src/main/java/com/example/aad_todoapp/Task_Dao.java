@@ -1,6 +1,8 @@
 package com.example.aad_todoapp;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
+import androidx.paging.PagedList;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -26,4 +28,7 @@ public interface Task_Dao {
     @Query("SELECT * FROM TaskEntity ORDER BY Completed")
     LiveData<List<TaskEntity>> GetAllTask();
 
+    //pagination query
+    @Query("SELECT * FROM TaskEntity ORDER BY completed")
+    DataSource.Factory<Integer,TaskEntity> pagination();
 }

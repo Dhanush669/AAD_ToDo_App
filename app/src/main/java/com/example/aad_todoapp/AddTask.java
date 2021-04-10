@@ -36,7 +36,10 @@ public class AddTask extends AppCompatActivity {
         binding=ActivityAddTaskBinding.inflate(getLayoutInflater());
         View view=binding.getRoot();
         setContentView(view);
-        binding.card.setBackgroundResource(R.drawable.add_task);
+
+        if (binding.card != null) {
+            binding.card.setBackgroundResource(R.drawable.add_task);
+        }
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.taskproioity,R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         binding.taskPriority.setAdapter(adapter);
@@ -46,7 +49,9 @@ public class AddTask extends AppCompatActivity {
         }
         if(intent.getStringExtra("up_task_desc")!=null){
             setTitle("Update Task");
-            binding.addtitle.setText(R.string.update_title);
+            if (binding.addtitle != null) {
+                binding.addtitle.setText(R.string.update_title);
+            }
             id=intent.getIntExtra("up_task_id",-1);
             pre_due_day=intent.getIntExtra("up_due_day",0);
             pre_due_month=intent.getIntExtra("up_due_month",0);
@@ -71,7 +76,9 @@ public class AddTask extends AppCompatActivity {
         }
         else{
             setTitle("Add Task");
-            binding.addtitle.setText(R.string.add_title);
+            if (binding.addtitle != null) {
+                binding.addtitle.setText(R.string.add_title);
+            }
             binding.addBtn.setText(R.string.add_btn);
         }
         if(savedInstanceState!=null){

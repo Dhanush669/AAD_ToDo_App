@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.paging.PagedList;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DateFormat;
@@ -23,12 +27,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
+public class TaskAdapter extends PagedListAdapter<TaskEntity,TaskAdapter.ViewHolder>{
     List<TaskEntity> tasklist=new ArrayList<>();
     onClickListener listener;
     Context context;
     int posi=0;
-    TaskAdapter(Context context){
+    TaskAdapter(Context context, @NonNull DiffUtil.ItemCallback diffCallback){
+        super(diffCallback);
         this.context=context;
     }
     @NonNull
@@ -126,6 +131,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
+        Log.i("diff", String.valueOf(tasklist.size()));
+
         return tasklist.size();
     }
 

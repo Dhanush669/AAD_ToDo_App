@@ -14,6 +14,7 @@
         android:hint="@string/about_task"
         android:textSize="18sp"
         android:inputType="text"
+        android:textColorHint="#808080"
         android:textColor="#000000"
         android:id="@+id/task_desc"
         >

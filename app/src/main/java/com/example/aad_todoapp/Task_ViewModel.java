@@ -5,16 +5,20 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.paging.PagedList;
 
 import java.util.List;
 
 public class Task_ViewModel extends AndroidViewModel {
     Task_Repo task_repo;
     LiveData<List<TaskEntity>> allTask;
+    //pagination tasks
+    LiveData<PagedList<TaskEntity>> pagitask;
     public Task_ViewModel(@NonNull Application application) {
         super(application);
         task_repo=new Task_Repo(application);
         allTask=task_repo.getAllTask();
+        pagitask=task_repo.init();
     }
     public void add(TaskEntity taskEntity){
         task_repo.addTask(taskEntity);
@@ -30,5 +34,8 @@ public class Task_ViewModel extends AndroidViewModel {
     }
     LiveData<List<TaskEntity>> getAllTask(){
         return allTask;
+    }
+    LiveData<PagedList<TaskEntity>> getPagitask(){
+        return pagitask;
     }
 }

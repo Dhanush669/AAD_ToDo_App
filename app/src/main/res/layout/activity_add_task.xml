@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#F8F8F8"
+    android:gravity=""
     android:orientation="vertical"
     tools:context=".AddTask">
     <androidx.cardview.widget.CardView
@@ -18,6 +19,7 @@
             android:layout_margin="20dp"
             android:text="@string/add_title"
             android:id="@+id/addtitle"
+            android:layout_gravity="center_horizontal"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="#ffffff"
@@ -27,7 +29,8 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40dp"
         android:hint="@string/about_task"
         android:textSize="18sp"
         android:inputType="text"
@@ -40,7 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/priority"
-        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="40dp"
         android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="#000000"
@@ -50,7 +54,7 @@
         android:background="#676767"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:id="@+id/task_priority"
         android:layout_marginTop="5dp"
         >
@@ -58,7 +62,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40dp"
         android:text="@string/due"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -68,7 +73,7 @@
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="40dp"
         android:id="@+id/radio_group"
         android:orientation="horizontal"
         >
@@ -95,7 +100,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40dp"
         android:id="@+id/selected_date"
         android:textColor="#000000"
         android:gravity="center"
@@ -107,6 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
+        android:textColor="#ffffff"
         android:text="@string/add_btn"
         android:id="@+id/add_btn"
         >

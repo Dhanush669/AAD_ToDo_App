@@ -1,10 +1,12 @@
 package com.example.aad_todoapp;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,14 +40,30 @@ public class MainActivity extends AppCompatActivity {
     setAlarm set;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //to load data from where it left
+        DiffUtil.ItemCallback<TaskEntity> diffutil= new DiffUtil.ItemCallback<TaskEntity>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull TaskEntity oldItem, @NonNull TaskEntity newItem) {
+                return oldItem.getId()==newItem.getId();
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull TaskEntity oldItem, @NonNull TaskEntity newItem) {
+                Log.i("diff",oldItem.getTask_desc()+" : "+newItem.getTask_desc());
+
+                return Objects.equals(oldItem, newItem);
+            }
+        };
+
         super.onCreate(savedInstanceState);
         binding=ActivityMainBinding.inflate(getLayoutInflater());
         View view=binding.getRoot();
         setContentView(view);
         tasklist=new ArrayList<>();
         widget_data=new ArrayList<>();
-        TaskAdapter taskAdapter=new TaskAdapter(MainActivity.this);
-        binding.recyclerview.setAdapter(taskAdapter);
+        TaskAdapter taskAdapter=new TaskAdapter(MainActivity.this,diffutil);
+
         set=new setAlarm(getApplicationContext());
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(this));
         taskAdapter.onItemClicked(new TaskAdapter.onClickListener() {
@@ -63,33 +82,73 @@ public class MainActivity extends AppCompatActivity {
         });
         task_viewModel= new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.
                 getInstance(this.getApplication())).get(Task_ViewModel.class);
-        task_viewModel.getAllTask().observe(this, new Observer<List<TaskEntity>>() {
-            @Override
-            public void onChanged(List<TaskEntity> taskEntities) {
-                taskAdapter.showTask(taskEntities);
-                widget_data=taskEntities;
-                AppWidgetManager appWidgetManager=AppWidgetManager.getInstance(MainActivity.this);
-                Log.i("main act", String.valueOf(TasksWidget.widit)+"31");
-                Context context = getApplicationContext();
-                ComponentName name = new ComponentName(context, TasksWidget.class);
-                int [] widget_ids = AppWidgetManager.getInstance(context).getAppWidgetIds(name);
-                appWidgetManager.notifyAppWidgetViewDataChanged(widget_ids,R.id.task_items);
-                ids=new ArrayList<>();
-                for (TaskEntity taskEntity:taskEntities){
-                    ids.add(taskEntity.getId());
-                }
-                size=taskEntities.size();
-                if(size!=0){
-                   size-=1;
-//                    setTask(ids.get(size),taskEntities.get(size).getTask_priority(),taskEntities.get(size).getTask_desc(),
-//                            taskEntities.get(size).getTask_due());
-                    taskid=ids.get(size);
 
-                }
-                Log.i("onchanged",String.valueOf(taskid));
+        //normal all task
+//        task_viewModel.getAllTask().observe(this, new Observer<List<TaskEntity>>() {
+//            @Override
+//            public void onChanged(List<TaskEntity> taskEntities) {
+//                taskAdapter.showTask(taskEntities);
+//                widget_data=taskEntities;
+//                AppWidgetManager appWidgetManager=AppWidgetManager.getInstance(MainActivity.this);
+//                Log.i("main act", String.valueOf(TasksWidget.widit)+"31");
+//                Context context = getApplicationContext();
+//                ComponentName name = new ComponentName(context, TasksWidget.class);
+//                int [] widget_ids = AppWidgetManager.getInstance(context).getAppWidgetIds(name);
+//                appWidgetManager.notifyAppWidgetViewDataChanged(widget_ids,R.id.task_items);
+//                ids=new ArrayList<>();
+//                for (TaskEntity taskEntity:taskEntities){
+//                    ids.add(taskEntity.getId());
+//                }
+//                size=taskEntities.size();
+//                if(size!=0){
+//                   size-=1;
+////                    setTask(ids.get(size),taskEntities.get(size).getTask_priority(),taskEntities.get(size).getTask_desc(),
+////                            taskEntities.get(size).getTask_due());
+//                    taskid=ids.get(size);
+//
+//                }
+//                Log.i("onchanged",String.valueOf(taskid));
+//
+//            }
+//        });
 
-            }
-        });
+
+        //pagination all task 2:06
+
+//        task_viewModel.getPagitask().observe(this, new Observer<List<TaskEntity>>() {
+//            @Override
+//            public void onChanged(List<TaskEntity> taskEntities) {
+//                taskAdapter.showTask(taskEntities);
+//                widget_data=taskEntities;
+//                AppWidgetManager appWidgetManager=AppWidgetManager.getInstance(MainActivity.this);
+//                Log.i("main act", String.valueOf(TasksWidget.widit)+"31");
+//                Context context = getApplicationContext();
+//                ComponentName name = new ComponentName(context, TasksWidget.class);
+//                int [] widget_ids = AppWidgetManager.getInstance(context).getAppWidgetIds(name);
+//                appWidgetManager.notifyAppWidgetViewDataChanged(widget_ids,R.id.task_items);
+//                ids=new ArrayList<>();
+//                for (TaskEntity taskEntity:taskEntities){
+//                    ids.add(taskEntity.getId());
+//                }
+//                size=taskEntities.size();
+//                if(size!=0){
+//                    Log.i("size",String.valueOf(ids.size()));
+//                    size-=1;
+////                    setTask(ids.get(size),taskEntities.get(size).getTask_priority(),taskEntities.get(size).getTask_desc(),
+////                            taskEntities.get(size).getTask_due());
+//                    taskid=ids.get(size);
+//
+//                }
+//                Log.i("onchanged",String.valueOf(taskid));
+//
+//            }
+//        });
+
+        //check pagination
+        task_viewModel.getPagitask().observe(this,taskAdapter::showTask);
+        binding.recyclerview.setAdapter(taskAdapter);
+
+
         binding.addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

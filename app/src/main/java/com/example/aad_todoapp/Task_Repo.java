@@ -4,12 +4,18 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import java.util.List;
 
 public class Task_Repo {
     Task_Dao task_dao;
+    //normal alltask
     LiveData<List<TaskEntity>> allTask;
+
+    //pagination alltask
+    LiveData<PagedList<TaskEntity>> pagialltask;
 
     Task_Repo(Application application){
        Task_Room task_room=Task_Room.getInstance(application);
@@ -74,5 +80,14 @@ public class Task_Repo {
     }
     LiveData<List<TaskEntity>> getAllTask(){
         return allTask;
+    }
+
+    public LiveData<PagedList<TaskEntity>> init(){
+        PagedList.Config config=(new PagedList.Config.Builder())
+                .setEnablePlaceholders(true)
+                .setPrefetchDistance(10)
+                .setPageSize(10).build();
+        pagialltask= new LivePagedListBuilder<>(task_dao.pagination(),config).build();
+        return pagialltask;
     }
 }
