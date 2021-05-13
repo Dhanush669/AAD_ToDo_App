@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,14 +27,26 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 public class TaskAdapter extends PagedListAdapter<TaskEntity,TaskAdapter.ViewHolder>{
     List<TaskEntity> tasklist=new ArrayList<>();
     onClickListener listener;
     Context context;
     int posi=0;
-    TaskAdapter(Context context, @NonNull DiffUtil.ItemCallback diffCallback){
-        super(diffCallback);
+    private static DiffUtil.ItemCallback<TaskEntity> diffutil= new DiffUtil.ItemCallback<TaskEntity>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull TaskEntity oldItem, @NonNull TaskEntity newItem) {
+            return oldItem.getId()==newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull TaskEntity oldItem, @NonNull TaskEntity newItem) {
+            return Objects.equals(oldItem, newItem);
+        }
+    };
+    TaskAdapter(Context context){
+        super(diffutil);
         this.context=context;
     }
     @NonNull
@@ -46,7 +59,10 @@ public class TaskAdapter extends PagedListAdapter<TaskEntity,TaskAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        TaskEntity taskEntity=tasklist.get(position);
+        //TaskEntity taskEntity=tasklist.get(position);
+
+        // for pagged list
+        TaskEntity taskEntity=getItem(position);
         holder.task_prority.setText(taskEntity.getTask_priority());
         holder.task_due.setText(taskEntity.getTask_due());
         holder.task_desc.setText(taskEntity.getTask_desc());
@@ -58,6 +74,7 @@ public class TaskAdapter extends PagedListAdapter<TaskEntity,TaskAdapter.ViewHol
             @Override
             public void onClick(View view) {
                 setAlarm set = new setAlarm(context.getApplicationContext());
+                Log.i("checkbox", String.valueOf(position));
                 if(holder.checkBox.isChecked()){
                     MainActivity.completedTask(taskEntity.getId(), taskEntity.getTask_desc()
                             , taskEntity.getTask_priority(), taskEntity.getTask_due(),holder.checkBox.isChecked(),taskEntity.getDue_day()
@@ -88,12 +105,21 @@ public class TaskAdapter extends PagedListAdapter<TaskEntity,TaskAdapter.ViewHol
         switch (taskEntity.getTask_priority()) {
             case "High":
                 holder.priority_image.setImageResource(R.drawable.ic_high);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    holder.task_due.setTextColor(context.getColor(R.color.hig));
+                }
                 break;
             case "Medium":
                 holder.priority_image.setImageResource(R.drawable.ic_medium);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    holder.task_due.setTextColor(context.getColor(R.color.med));
+                }
                 break;
             case "Low":
                 holder.priority_image.setImageResource(R.drawable.ic_low);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    holder.task_due.setTextColor(context.getColor(R.color.low));
+                }
                 break;
         }
 
@@ -124,17 +150,12 @@ public class TaskAdapter extends PagedListAdapter<TaskEntity,TaskAdapter.ViewHol
     }
 
     public void showTask(List<TaskEntity> tasklist){
+       // this.tasklist=tasklist;
         this.tasklist=tasklist;
         notifyDataSetChanged();
 
     }
 
-    @Override
-    public int getItemCount() {
-        Log.i("diff", String.valueOf(tasklist.size()));
-
-        return tasklist.size();
-    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView task_desc,task_prority,task_due;

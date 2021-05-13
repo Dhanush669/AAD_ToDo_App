@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     static Task_ViewModel task_viewModel;
     List<TaskEntity> tasklist;
+    TaskAdapter taskAdapter;
     static List<TaskEntity> widget_data;
     List<Integer> ids;
     int size=0;
@@ -42,19 +44,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         //to load data from where it left
-        DiffUtil.ItemCallback<TaskEntity> diffutil= new DiffUtil.ItemCallback<TaskEntity>() {
-            @Override
-            public boolean areItemsTheSame(@NonNull TaskEntity oldItem, @NonNull TaskEntity newItem) {
-                return oldItem.getId()==newItem.getId();
-            }
 
-            @Override
-            public boolean areContentsTheSame(@NonNull TaskEntity oldItem, @NonNull TaskEntity newItem) {
-                Log.i("diff",oldItem.getTask_desc()+" : "+newItem.getTask_desc());
-
-                return Objects.equals(oldItem, newItem);
-            }
-        };
 
         super.onCreate(savedInstanceState);
         binding=ActivityMainBinding.inflate(getLayoutInflater());
@@ -62,10 +52,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
         tasklist=new ArrayList<>();
         widget_data=new ArrayList<>();
-        TaskAdapter taskAdapter=new TaskAdapter(MainActivity.this,diffutil);
+        taskAdapter=new TaskAdapter(MainActivity.this);
 
         set=new setAlarm(getApplicationContext());
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerview.setHasFixedSize(false);
         taskAdapter.onItemClicked(new TaskAdapter.onClickListener() {
             @Override
             public void itemClick(TaskEntity taskEntity) {
@@ -143,10 +134,22 @@ public class MainActivity extends AppCompatActivity {
 //
 //            }
 //        });
+//        for(int i=1;i<201;i++){
+//            task_viewModel.add(new TaskEntity(String.valueOf(i),"High","12/12/12",0,12,12,2012));
+//        }
 
         //check pagination
-        task_viewModel.getPagitask().observe(this,taskAdapter::showTask);
+        task_viewModel.pagitask.observe(this, new Observer<PagedList<TaskEntity>>() {
+            @Override
+            public void onChanged(PagedList<TaskEntity> taskEntities) {
+              // taskAdapter.showTask(taskEntities);
+                taskAdapter.submitList(taskEntities);
+                Log.i("submitlist", String.valueOf(taskAdapter.getCurrentList().size()));
+            }
+        });
         binding.recyclerview.setAdapter(taskAdapter);
+
+        //adding 200 data for checking
 
 
         binding.addTask.setOnClickListener(new View.OnClickListener() {
@@ -175,9 +178,6 @@ public class MainActivity extends AppCompatActivity {
             task_viewModel.add(taskEntity);
             set.setTask(taskid+1,taskEntity.getTask_priority(),taskEntity.getTask_desc(),
                     taskEntity.getTask_due(),dueday,duemonth,dueyear);
-
-            Log.i("onact",String.valueOf(taskid));
-
         }
         else if(requestCode==2 && resultCode==RESULT_OK){
 
@@ -200,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
             taskEntity.setId(id);
             task_viewModel.update(taskEntity);
             Calendar current_calendar=Calendar.getInstance();
-
             Calendar updated_calendar=Calendar.getInstance();
             updated_calendar.set(Calendar.HOUR_OF_DAY,10);
             updated_calendar.set(Calendar.MINUTE,10);
@@ -210,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
             updated_calendar.set(Calendar.DAY_OF_MONTH,dueday);
             Log.i("check",String.valueOf(dueday));
             if(updated_calendar.after(current_calendar)){
-                Log.i("Calendar","working");
                 set.setTask(taskEntity.getId(),taskEntity.getTask_priority(),taskEntity.getTask_desc(),
                                 taskEntity.getTask_due(),dueday,duemonth,dueyear);
             }

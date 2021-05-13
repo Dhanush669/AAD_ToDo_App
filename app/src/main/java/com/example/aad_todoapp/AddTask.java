@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -62,12 +63,21 @@ public class AddTask extends AppCompatActivity {
             switch(intent.getStringExtra("up_task_priority")){
                 case "High":
                     binding.taskPriority.setSelection(0);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        binding.card.setCardBackgroundColor(this.getColor(R.color.hig));
+                    }
                     break;
                 case "Medium":
                     binding.taskPriority.setSelection(1);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        binding.card.setCardBackgroundColor(this.getColor(R.color.med));
+                    }
                     break;
                 case "Low":
                     binding.taskPriority.setSelection(2);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        binding.card.setCardBackgroundColor(this.getColor(R.color.low));
+                    }
                     break;
 
             }

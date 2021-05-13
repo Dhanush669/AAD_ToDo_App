@@ -14,4 +14,8 @@
     <color name="light_blue_900">#FF01579B</color>
     <color name="pending">#ffffff</color>
     <color name="completed">#878787</color>
+    <color name="med">#A2B500</color>
+    <color name="hig">#E69791</color>
+    <color name="low">#007E72</color>
+    <color name="colordef">#FA9E81</color>
 </resources>

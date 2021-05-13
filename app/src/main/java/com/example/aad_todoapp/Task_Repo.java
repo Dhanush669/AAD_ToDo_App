@@ -84,9 +84,9 @@ public class Task_Repo {
 
     public LiveData<PagedList<TaskEntity>> init(){
         PagedList.Config config=(new PagedList.Config.Builder())
-                .setEnablePlaceholders(true)
-                .setPrefetchDistance(10)
-                .setPageSize(10).build();
+                .setEnablePlaceholders(false)
+                .setPrefetchDistance(40)
+                .setPageSize(40).build();
         pagialltask= new LivePagedListBuilder<>(task_dao.pagination(),config).build();
         return pagialltask;
     }
