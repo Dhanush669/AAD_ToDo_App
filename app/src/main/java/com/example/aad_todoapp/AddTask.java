@@ -37,10 +37,6 @@ public class AddTask extends AppCompatActivity {
         binding=ActivityAddTaskBinding.inflate(getLayoutInflater());
         View view=binding.getRoot();
         setContentView(view);
-
-        if (binding.card != null) {
-            binding.card.setBackgroundResource(R.drawable.add_task);
-        }
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.taskproioity,R.layout.support_simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         binding.taskPriority.setAdapter(adapter);
@@ -63,21 +59,12 @@ public class AddTask extends AppCompatActivity {
             switch(intent.getStringExtra("up_task_priority")){
                 case "High":
                     binding.taskPriority.setSelection(0);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        binding.card.setCardBackgroundColor(this.getColor(R.color.hig));
-                    }
                     break;
                 case "Medium":
                     binding.taskPriority.setSelection(1);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        binding.card.setCardBackgroundColor(this.getColor(R.color.med));
-                    }
                     break;
                 case "Low":
                     binding.taskPriority.setSelection(2);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        binding.card.setCardBackgroundColor(this.getColor(R.color.low));
-                    }
                     break;
 
             }
@@ -108,7 +95,7 @@ public class AddTask extends AppCompatActivity {
                 calendar.set(Calendar.MONTH,i1);
                 calendar.set(Calendar.YEAR,i);
 
-                String date=DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.getTime());
+                String date=DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
                 day=i2;
                 month=i1;
                 year=i;

@@ -13,6 +13,7 @@ public class Task_Repo {
     Task_Dao task_dao;
     //normal alltask
     LiveData<List<TaskEntity>> allTask;
+    LiveData<List<TaskEntity>> thisweaktask;
 
     //pagination alltask
     LiveData<PagedList<TaskEntity>> pagialltask;
@@ -22,6 +23,12 @@ public class Task_Repo {
         task_dao=task_room.task_dao();
         allTask=task_dao.GetAllTask();
     }
+
+    public LiveData<List<TaskEntity>> thisweektasklist(int due){
+        thisweaktask=task_dao.getThisWeekTask(due);
+        return thisweaktask;
+    }
+
     public void addTask(TaskEntity taskEntity){
         new Insert_AsyncTask(task_dao).execute(taskEntity);
     }

@@ -34,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
     static Task_ViewModel task_viewModel;
     List<TaskEntity> tasklist;
     TaskAdapter taskAdapter;
+    TodaytaskAdapter todaytaskAdapter;
     static List<TaskEntity> widget_data;
+    List<TaskEntity> todaylist;
     List<Integer> ids;
     int size=0;
     static int duemonth=0,dueyear=0,dueday=0;
@@ -52,9 +54,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
         tasklist=new ArrayList<>();
         widget_data=new ArrayList<>();
+        todaytaskAdapter=new TodaytaskAdapter(this);
         taskAdapter=new TaskAdapter(MainActivity.this);
-
+        todaylist=new ArrayList<>();
         set=new setAlarm(getApplicationContext());
+        LinearLayoutManager horizontalLayoutManagaer = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        binding.todaytaskrec.setLayoutManager(horizontalLayoutManagaer);
+
+
         binding.recyclerview.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerview.setHasFixedSize(false);
         taskAdapter.onItemClicked(new TaskAdapter.onClickListener() {
@@ -143,14 +150,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(PagedList<TaskEntity> taskEntities) {
               // taskAdapter.showTask(taskEntities);
+
                 taskAdapter.submitList(taskEntities);
-                Log.i("submitlist", String.valueOf(taskAdapter.getCurrentList().size()));
+                get_weeK_list();
             }
         });
+
         binding.recyclerview.setAdapter(taskAdapter);
-
-        //adding 200 data for checking
-
+        binding.todaytaskrec.setAdapter(todaytaskAdapter);
 
         binding.addTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -252,6 +259,17 @@ public class MainActivity extends AppCompatActivity {
             taskEntity.setId(update_id);
         }
         task_viewModel.update(taskEntity);
+    }
+    public void get_weeK_list(){
+        Calendar tillnextweak = Calendar.getInstance();
+        task_viewModel.getThisweektask(tillnextweak.get(Calendar.DAY_OF_MONTH)).observe(this, new Observer<List<TaskEntity>>() {
+            @Override
+            public void onChanged(List<TaskEntity> taskEntities) {
+                todaytaskAdapter.showTask(taskEntities);
+                Log.i("call show", String.valueOf(taskEntities.size()));
+
+            }
+        });
     }
 
 }

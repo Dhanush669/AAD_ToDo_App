@@ -66,10 +66,8 @@ public class TaskAdapter extends PagedListAdapter<TaskEntity,TaskAdapter.ViewHol
         holder.task_prority.setText(taskEntity.getTask_priority());
         holder.task_due.setText(taskEntity.getTask_due());
         holder.task_desc.setText(taskEntity.getTask_desc());
-        holder.cardView.setBackgroundResource(R.drawable.taskcard);
         holder.task_prority.setTextColor(Color.rgb(99,99,99));
         holder.task_due.setTextColor(Color.rgb(99,99,99));
-        holder.task_desc.setTextColor(Color.rgb(0,0,0));
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,19 +104,28 @@ public class TaskAdapter extends PagedListAdapter<TaskEntity,TaskAdapter.ViewHol
             case "High":
                 holder.priority_image.setImageResource(R.drawable.ic_high);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.task_due.setTextColor(context.getColor(R.color.hig));
+//                    holder.task_due.setTextColor(context.getColor(R.color.hig));
+//                    holder.task_prority.setTextColor(context.getColor(R.color.hig));
+                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.hig));
                 }
                 break;
             case "Medium":
                 holder.priority_image.setImageResource(R.drawable.ic_medium);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.task_due.setTextColor(context.getColor(R.color.med));
+//                    holder.task_due.setTextColor(context.getColor(R.color.med));
+//                    holder.task_prority.setTextColor(context.getColor(R.color.med));
+                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.med));
+
                 }
                 break;
             case "Low":
                 holder.priority_image.setImageResource(R.drawable.ic_low);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.task_due.setTextColor(context.getColor(R.color.low));
+//                    holder.task_due.setTextColor(context.getColor(R.color.low));
+//                    holder.task_prority.setTextColor(context.getColor(R.color.low));
+                    holder.cardView.setCardBackgroundColor(context.getColor(R.color.low));
+
+
                 }
                 break;
         }
@@ -136,7 +143,9 @@ public class TaskAdapter extends PagedListAdapter<TaskEntity,TaskAdapter.ViewHol
         });
         if(taskEntity.getCompleted()==1) {
             posi=position;
-            holder.cardView.setBackgroundResource(R.drawable.completed_task);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                holder.cardView.setCardBackgroundColor(context.getColor(R.color.completed));
+            }
             holder.task_due.setTextColor(Color.rgb(182,182,182));
             holder.task_desc.setTextColor(Color.rgb(147,147,147));
             holder.task_prority.setTextColor(Color.rgb(182,182,182));

@@ -31,4 +31,7 @@ public interface Task_Dao {
     //pagination query
     @Query("SELECT * FROM TaskEntity ORDER BY completed")
     DataSource.Factory<Integer,TaskEntity> pagination();
+
+    @Query("SELECT * FROM TaskEntity WHERE due_day>:due AND due_day<:due+7 ORDER BY completed")
+    LiveData<List<TaskEntity>> getThisWeekTask(int due);
 }

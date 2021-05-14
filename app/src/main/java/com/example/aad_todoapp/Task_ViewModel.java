@@ -14,12 +14,18 @@ public class Task_ViewModel extends AndroidViewModel {
     LiveData<List<TaskEntity>> allTask;
     //pagination tasks
     LiveData<PagedList<TaskEntity>> pagitask;
+    LiveData<List<TaskEntity>> thisweektask;
     public Task_ViewModel(@NonNull Application application) {
         super(application);
         task_repo=new Task_Repo(application);
         allTask=task_repo.getAllTask();
         pagitask=task_repo.init();
     }
+
+    LiveData<List<TaskEntity>> getThisweektask(int due){
+        return thisweektask=task_repo.thisweektasklist(due);
+    }
+
     public void add(TaskEntity taskEntity){
         task_repo.addTask(taskEntity);
     }

@@ -4,47 +4,84 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="#E1E8EC"
     tools:context=".MainActivity">
-    <TextView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardElevation="20dp"
+        app:cardBackgroundColor="#000000"
+        >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="135dp"
         android:layout_marginEnd="20dp"
+        android:layout_gravity="center_horizontal"
         android:text="@string/task_title"
         android:textSize="24sp"
-        android:textColor="#FFFFFF"
+        android:textColor="#ffffff"
         android:textStyle="bold"
+        android:layout_marginBottom="10dp"
         >
     </TextView>
-
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/ic_unchecked"
+    </androidx.cardview.widget.CardView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
         >
-    </ImageView>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="150dp"
         android:layout_height="match_parent"
         android:elevation="6dp"
         android:orientation="vertical"
-        android:background="@drawable/cardbackground"
         >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:text="This Week Task"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            >
+        </TextView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:id="@+id/todaytaskrec"
+            tools:listitem="@layout/todaytasklayout"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            >
+        </androidx.recyclerview.widget.RecyclerView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:text="All Tasks"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            >
+        </TextView>
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recyclerview"
             android:layout_marginTop="10dp"
-
             tools:listitem="@layout/taskholderlayout"
             >
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
+    </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
