@@ -66,6 +66,9 @@ public class TaskAdapter extends PagedListAdapter<TaskEntity,TaskAdapter.ViewHol
         holder.task_prority.setText(taskEntity.getTask_priority());
         holder.task_due.setText(taskEntity.getTask_due());
         holder.task_desc.setText(taskEntity.getTask_desc());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            holder.task_desc.setTextColor(context.getColor(R.color.white));
+        }
         holder.task_prority.setTextColor(Color.rgb(99,99,99));
         holder.task_due.setTextColor(Color.rgb(99,99,99));
         holder.checkBox.setOnClickListener(new View.OnClickListener() {

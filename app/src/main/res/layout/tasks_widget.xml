@@ -5,7 +5,16 @@
     android:padding="@dimen/widget_margin"
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AAD_ToDoApp.AppWidgetContainer">
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This weeks Task"
+        android:textSize="18sp"
+        android:textColor="#ffffff"
+        android:layout_margin="20dp"
+        android:textStyle="bold"
+        >
+    </TextView>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,7 +29,7 @@
             android:id="@+id/example_widget_empty_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/darker_gray"
+            android:background="#000000"
             android:gravity="center"
             android:text="Empty"
             android:textColor="@android:color/white"

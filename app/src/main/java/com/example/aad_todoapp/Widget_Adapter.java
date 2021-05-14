@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -79,8 +80,21 @@ public class Widget_Adapter extends RemoteViewsService {
                 views.setInt(R.id.task_container,"setBackgroundResource",R.color.pending);
             }
             else {
-                views.setTextColor(R.id.widget_desc, Color.rgb(0,0,0));
-                views.setTextColor(R.id.widget_due, Color.rgb(99,99,99));
+                if(all_task.get(i).getTask_priority().equals("High")){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        views.setTextColor(R.id.widget_desc,context.getColor(R.color.widcolhig));
+                    }
+                }
+                else if(all_task.get(i).getTask_priority().equals("Medium")){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        views.setTextColor(R.id.widget_desc,context.getColor(R.color.widcolmed));
+                    }
+                }
+                else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        views.setTextColor(R.id.widget_desc,context.getColor(R.color.widcollow));
+                    }
+                }
                 views.setInt(R.id.task_container,"setBackgroundResource",
                         R.color.completed);
             }

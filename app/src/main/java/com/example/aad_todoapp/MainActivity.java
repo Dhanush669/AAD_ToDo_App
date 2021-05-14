@@ -266,8 +266,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(List<TaskEntity> taskEntities) {
                 todaytaskAdapter.showTask(taskEntities);
-                Log.i("call show", String.valueOf(taskEntities.size()));
-
+                widget_data=taskEntities;
+                AppWidgetManager appWidgetManager=AppWidgetManager.getInstance(MainActivity.this);
+                Context context = getApplicationContext();
+                ComponentName name = new ComponentName(context, TasksWidget.class);
+                int [] widget_ids = AppWidgetManager.getInstance(context).getAppWidgetIds(name);
+                appWidgetManager.notifyAppWidgetViewDataChanged(widget_ids,R.id.task_items);
             }
         });
     }
